@@ -49,11 +49,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
+                //.antMatchers("/users").hasAuthority(Role.ADMIN.name(), Role.MANAGER.name())
                 .antMatchers("/users/new").hasAuthority(Role.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
                     .formLogin()
                     .loginPage("/login")
+                    .failureUrl("/login-error")
                     .loginProcessingUrl("/auth")
                     .permitAll()
                 .and()
