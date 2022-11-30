@@ -43,7 +43,7 @@ public class BucketServiceImpl implements BucketService {
     public void addProducts(Bucket bucket, List<Long> productsIds) {
         List<Product>products = bucket.getProducts();
         List<Product>newProductList = products != null ? new ArrayList<>() : new ArrayList<>(products);
-        newProductList.add(getCollectRefProductIds(productsIds));
+//        newProductList.add(getCollectRefProductIds(productsIds));
         bucket.setProducts(newProductList);
         bucketRepo.save(bucket);
     }
