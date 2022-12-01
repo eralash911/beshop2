@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -40,6 +41,20 @@ public class UserServiceImpl implements UserService{
                 .build();
        userRepo.save(user);
        return true;
+    }
+
+    @Override
+    public List<UserDto> getAll() {
+        return userRepo.findAll().stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    private UserDto toDto(User user) {
+        return UserDto.builder()
+                .username(user.getName())
+                .email(user.getEmail())
+                .build();
     }
 
     @Override

@@ -14,14 +14,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.persistence.Basic;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
@@ -49,11 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
+                //.antMatchers("/users").hasAuthority(Role.ADMIN.name(), Role.MANAGER.name())
                 .antMatchers("/users/new").hasAuthority(Role.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
                     .formLogin()
                     .loginPage("/login")
+                    .failureUrl("/login-error")
                     .loginProcessingUrl("/auth")
                     .permitAll()
                 .and()
